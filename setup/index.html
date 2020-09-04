@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html style="background-color: purple;">
+  <head>
+    <link rel="stylesheet" type="text/css" href="/setup/setup.css" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="/setup/setup.js"></script>
+  </head>
+  <body>
+    <h1 style="text-align:center">
+      Hello! Welcome to the <b><i>Scheduled Link</i></b> Setup Wizard!
+    </h1>
+    <div id="outer"><div class="inner">Link</div><div class="inner">Beginning Time</div><div class="inner">Ending Time</div></div>
+    <span id="holder">
+    </span>
+    <center>
+      <button type="button" onclick="delSlot()" class="button">
+        -
+      </button>
+      <button type="button" onclick="addNew()" class="button">
+        +
+      </button>
+    </center>
+    <br>
+    <button id="deleteButton" style="background-color:red; position:absolute; left: 45px;" type="button" onclick="deleteCookies();location.reload();">
+      Delete All
+    </button>
+  </body>
+</html>
