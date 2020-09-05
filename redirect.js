@@ -44,7 +44,11 @@ if (linksToOpen.length == 1) {
 }
 else {
   for (var i = 0; i < linksToOpen.length; i++) {
-    window.open(linksToOpen[i]);
+    if (i == linksToOpen.length - 1) {
+      window.open(linksToOpen[i], "_self");
+    }
+    else {
+      window.open(linksToOpen[i]);
+    }
   }
-  window.close();
 }
