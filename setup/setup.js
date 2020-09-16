@@ -1,3 +1,7 @@
+if (location.href.substring(0, 5) == "http:") {
+  location.href = "https://" + location.href.substring(7, location.href.Length);
+}
+
 var date = new Date();
 
 function setDefaultCookies() {
