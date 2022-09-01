@@ -4,28 +4,8 @@ if (location.href.substring(0, 5) == "http:") {
 
 var date = new Date();
 
-function setDefaultCookies() {
-  deleteCookies();
-  document.cookie = "link0=";
-  document.cookie = "startTime0=00:00";
-  document.cookie = "endTime0=00:00";
-}
 
-function setNewCookies() {
-  deleteCookies();
-  for (var i = 0; i < cookieList.length; i++) {
-    document.cookie = cookieList[i];
-  }
-}
-
-var cookieList = document.cookie.split(";");
-
-var numTimeSlots = cookieList.length / 3;
-
-if (cookieList.length < 3) {
-  setDefaultCookies();
-  location.reload();
-}
+var records = window.localStorage.records ? JSON.parse(window.localStorage.records) : [];
 
 function setValue(id, newValue) {
   var element = document.getElementById(id);
@@ -42,69 +22,75 @@ function deleteCookies() {
   })();
 }
 
-var links = [];
-var startTimes = [];
-var endTimes = [];
-
-// get cookies
-for (var i = 0; i < cookieList.length / 3; i++) {
-  links.push(cookieList[i * 3]);
-  startTimes.push(cookieList[i * 3 + 1]);
-  endTimes.push(cookieList[i * 3 + 2]);
+function loadValues() {
+  records.forEach((record, i) => {
+    document.querySelector("#link" + i).value = record[0];
+    document.querySelector("#startTime" + i).value = record[1];
+    document.querySelector("#endTime" + i).value = record[2];
+  });
 }
 
-function loadSettings() {
-  for (var i = 0; i < numTimeSlots; i++) {
-    document.getElementById('link' + i.toString()).value = links[i].split("=")[1];
-    document.getElementById('startTime' + i.toString()).value = startTimes[i].split("=")[1];
-    document.getElementById('endTime' + i.toString()).value = endTimes[i].split("=")[1];
-  }
+function linkChange(e) {
+  records[parseInt(e.split("link")[1])][0] = document.querySelector("#" + e).value;
+  
+  window.localStorage.records = JSON.stringify(records);
+  
+  onLoad();
 }
 
-function linkChange(id) {
-  var idNum = parseInt(id.substring(4, id.length));
-  cookieList[idNum * 3] = id.toString() + "=" + document.getElementById(id).value.toString();
-  setNewCookies();
+function startTimeChange(e) {
+  records[parseInt(e.split("startTime")[1])][1] = document.querySelector("#" + e).value;
+  
+  window.localStorage.records = JSON.stringify(records);
+  
+  onLoad();
 }
 
-function startTimeChange(id) {
-  var idNum = parseInt(id.substring(9, id.length));
-  cookieList[idNum * 3 + 1] = id.toString() + "=" + document.getElementById(id).value.toString();
-  setNewCookies();
-}
-
-function endTimeChange(id) {
-  var idNum = parseInt(id.substring(7, id.length));
-  cookieList[idNum * 3 + 2] = id.toString() + "=" + document.getElementById(id).value.toString();
-  setNewCookies();
+function endTimeChange(e) {
+  records[parseInt(e.split("endTime")[1])][2] = document.querySelector("#" + e).value;
+  
+  window.localStorage.records = JSON.stringify(records);
+  
+  onLoad();
 }
 
 function onLoad() {
-  for (var i = 0; i < numTimeSlots; i++) {
+  document.querySelector("#holder").innerHTML = "";
+  
+  for (var i = 0; i < records.length; i++) {
     document.getElementById("holder").innerHTML +=
       "<div id=\"outer\"><div class=\"inner\"><input class=\"input\" onchange=\"linkChange(this.id)\" id=\"link" + i.toString() + "\" type=\"text\" /></div><div class=\"inner\"><input class=\"input\" onchange=\"startTimeChange(this.id)\" id=\"startTime" + i.toString() + "\" type=\"time\" /></div><div class=\"inner\"><input class=\"input\" onchange=\"endTimeChange(this.id)\" id=\"endTime" + i.toString() + "\" type=\"time\" /></div></div>";
   }
-  loadSettings();
-}
-
-function delSlot() {
-  var lastCookie = cookieList[cookieList.length - 1].split("=")[0];
-  var newCookieNumber = lastCookie.substring(8, lastCookie.length);
-  document.cookie = "link" + newCookieNumber + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "startTime" + newCookieNumber + "=00:00; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "endTime" + newCookieNumber + "=00:00; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  location.reload();
+  
+  loadValues();
 }
 
 function addNew() {
-  var lastCookie = cookieList[cookieList.length - 1].split("=")[0];
-  var newCookieNumber = (parseInt(lastCookie.substring(8, lastCookie.length)) + 1).toString();
-  document.cookie = "link" + newCookieNumber + "=";
-  document.cookie = "startTime" + newCookieNumber + "=00:00";
-  document.cookie = "endTime" + newCookieNumber + "=00:00";
-  location.reload();
+  records.push([
+    "",
+    "",
+    ""
+  ]);
+  
+  window.localStorage.records = JSON.stringify(records);
+  
+  onLoad();
 }
 
-var red = true;
+function deleteAll() {
+  records = [];
+  
+  window.localStorage.records = JSON.stringify(records);
+  
+  onLoad();
+}
 
-$(document).ready(()=> onLoad());
+function delSlot() {
+  records.splice(-1);
+  
+  window.localStorage.records = JSON.stringify(records);
+  
+  onLoad();
+}
+
+$(document).ready(onLoad);
