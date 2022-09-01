@@ -4,16 +4,7 @@ if (location.href.substring(0, 5) == "http:") {
 
 var cookieList = document.cookie.split(';');
 
-var links = [];
-var startTimes = [];
-var endTimes = [];
-
-// get cookies
-for (var i = 0; i < cookieList.length / 3; i++) {
-  links.push(cookieList[i * 3]);
-  startTimes.push(cookieList[i * 3 + 1]);
-  endTimes.push(cookieList[i * 3 + 2]);
-}
+var records = window.localStorage.records ? JSON.parse(window.localStorage.records) : [];
 
 var dt = new Date();
 
@@ -32,14 +23,14 @@ function isInTimeLimit(startTime, endTime, currentTime) {
 
 var linksToOpen = [];
 
-for (var i = 0; i < cookieList.length / 3; i++) {
-  var startTime = startTimes[i].split("=")[1];
+for (var i = 0; i < records.length; i++) {
+  var startTime = records[i][1]
   var startTimeObj = { hour: startTime.split(":")[0], minute: startTime.split(":")[1] };
-  var endTime = endTimes[i].split("=")[1];
+  var endTime = records[i][2]
   var endTimeObj = { hour: endTime.split(":")[0], minute: endTime.split(":")[1] };
   var currentTimeObj = { hour: dt.getHours(), minute: dt.getMinutes() };
   if (isInTimeLimit(startTimeObj, endTimeObj, currentTimeObj)) {
-    linksToOpen.push(links[i].split("=")[1]);
+    linksToOpen.push(records[i][0]);
   }
 }
 
