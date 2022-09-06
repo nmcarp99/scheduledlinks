@@ -57,10 +57,14 @@ function endTimeChange(e) {
 function onLoad() {
   document.querySelector("#holder").innerHTML = "";
   
+  var output = "";
+  
   for (var i = 0; i < records.length; i++) {
-    document.getElementById("holder").innerHTML +=
+    output +=
       "<div id=\"outer\"><div class=\"inner\"><input class=\"input\" onchange=\"linkChange(this.id)\" id=\"link" + i.toString() + "\" type=\"text\" /></div><div class=\"inner\"><input class=\"input\" onchange=\"startTimeChange(this.id)\" id=\"startTime" + i.toString() + "\" type=\"time\" /></div><div class=\"inner\"><input class=\"input\" onchange=\"endTimeChange(this.id)\" id=\"endTime" + i.toString() + "\" type=\"time\" /></div></div>";
   }
+  
+  document.getElementById("holder").innerHTML += output;
   
   loadValues();
 }
