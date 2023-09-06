@@ -49,8 +49,7 @@ if (linksToOpen.length == 1) {
   document.location.href = linksToOpen[0];
 } else {
   for (var i = 0; i < linksToOpen.length; i++) {
-    let l = i;
-    window.open(linksToOpen[l]);
+    window.open(linksToOpen[i]);
   }
   
   window.close();
