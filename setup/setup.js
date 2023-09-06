@@ -129,6 +129,8 @@ function copyScript() {
         linksToOpen.push(records[i][0]);
       }
     }
+    
+    linksToOpen = linksToOpen.reverse();
 
     if (linksToOpen.length == 1) {
       document.location.href = linksToOpen[0];
