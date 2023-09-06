@@ -45,16 +45,13 @@ for (var i = 0; i < records.length; i++) {
   }
 }
 
-linksToOpen = linksToOpen.reverse();
-
 if (linksToOpen.length == 1) {
   document.location.href = linksToOpen[0];
 } else {
   for (var i = 0; i < linksToOpen.length; i++) {
-    if (i == linksToOpen.length - 1) {
-      window.open(linksToOpen[i], "_self");
-    } else {
-      window.open(linksToOpen[i]);
-    }
+    let l = i;
+    window.open(linksToOpen[l]);
   }
+  
+  window.close();
 }
