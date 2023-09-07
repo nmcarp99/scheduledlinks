@@ -27,31 +27,36 @@ function loadValues() {
     document.querySelector("#link" + i).value = record[0];
     document.querySelector("#startTime" + i).value = record[1];
     document.querySelector("#endTime" + i).value = record[2];
+    document.querySelector("#order" + i).value = record[3];
   });
+}
+
+function orderChange(e) {
+  records[parseInt(e.split("order")[1])][3] = parseInt(document.querySelector("#" + e).value);
+  
+  records = records.sort((a, b) => a[3] - b[3]);
+  
+  window.localStorage.records = JSON.stringify(records);
+  
+  onLoad();
 }
 
 function linkChange(e) {
   records[parseInt(e.split("link")[1])][0] = document.querySelector("#" + e).value;
   
   window.localStorage.records = JSON.stringify(records);
-  
-  onLoad();
 }
 
 function startTimeChange(e) {
   records[parseInt(e.split("startTime")[1])][1] = document.querySelector("#" + e).value;
   
   window.localStorage.records = JSON.stringify(records);
-  
-  onLoad();
 }
 
 function endTimeChange(e) {
   records[parseInt(e.split("endTime")[1])][2] = document.querySelector("#" + e).value;
   
   window.localStorage.records = JSON.stringify(records);
-  
-  onLoad();
 }
 
 function onLoad() {
@@ -61,7 +66,20 @@ function onLoad() {
   
   for (var i = 0; i < records.length; i++) {
     output +=
-      "<div id=\"outer\"><div class=\"inner\"><input class=\"input\" onchange=\"linkChange(this.id)\" id=\"link" + i.toString() + "\" type=\"text\" /></div><div class=\"inner\"><input class=\"input\" onchange=\"startTimeChange(this.id)\" id=\"startTime" + i.toString() + "\" type=\"time\" /></div><div class=\"inner\"><input class=\"input\" onchange=\"endTimeChange(this.id)\" id=\"endTime" + i.toString() + "\" type=\"time\" /></div></div>";
+      `<div id="outer">
+        <div class="inner">
+          <input class="input" onchange="orderChange(this.id)" id="order${i.toString()}" type="number" />
+        </div>
+        <div class="inner">
+          <input class="input" onchange="linkChange(this.id)" id="link${i.toString()}" type="text" />
+        </div>
+        <div class="inner">
+          <input class="input" onchange="startTimeChange(this.id)" id="startTime${i.toString()}" type="time" />
+        </div>
+        <div class="inner">
+          <input class="input" onchange="endTimeChange(this.id)" id="endTime${i.toString()}" type="time" />
+        </div>
+      </div>`;
   }
   
   document.getElementById("holder").innerHTML += output;
@@ -73,7 +91,8 @@ function addNew() {
   records.push([
     "",
     "",
-    ""
+    "",
+    0
   ]);
   
   window.localStorage.records = JSON.stringify(records);
