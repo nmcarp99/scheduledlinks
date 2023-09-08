@@ -195,9 +195,11 @@ function copyScript() {
 
     if (linksToOpen.length == 1) {
       document.location.href = linksToOpen[0];
-    } else if (linksToOpen.length > 1) {
-      for (var i = 0; i < linksToOpen.length; i++) {
-        window.open(linksToOpen[i]);
+    } else {
+      if (linksToOpen.length > 1) {
+        for (var i = 0; i < linksToOpen.length; i++) {
+          window.open(linksToOpen[i]);
+        }
       }
 
       window.close();

@@ -40,7 +40,7 @@ function isInTimeLimit(startTime, endTime, currentTime) {
 var linksToOpen = [];
 
 for (var i = 0; i < records.length; i++) {
-  if (records[i][4] != listId) continue;
+  if (records[i][4] != listId || !listId) continue;
 
   var startTime = records[i][1];
   var startTimeObj = {
@@ -60,9 +60,11 @@ for (var i = 0; i < records.length; i++) {
 
 if (linksToOpen.length == 1) {
   document.location.href = linksToOpen[0];
-} else if (linksToOpen.length > 1) {
-  for (var i = 0; i < linksToOpen.length; i++) {
-    window.open(linksToOpen[i]);
+} else {
+  if (linksToOpen.length > 1) {
+    for (var i = 0; i < linksToOpen.length; i++) {
+      window.open(linksToOpen[i]);
+    }
   }
 
   window.close();
