@@ -4,6 +4,17 @@ if (location.href.substring(0, 5) == "http:") {
 
 var cookieList = document.cookie.split(";");
 
+var params = location.search
+  .replace(/^\?/, "")
+  .split("&")
+  .reduce((prev, cur) => {
+    var split = cur.split("=");
+    prev[split[0]] = split[1];
+    return prev;
+  }, {});
+
+var listId = params?.id;
+
 var records = window.localStorage.records
   ? JSON.parse(window.localStorage.records)
   : [];
@@ -29,6 +40,8 @@ function isInTimeLimit(startTime, endTime, currentTime) {
 var linksToOpen = [];
 
 for (var i = 0; i < records.length; i++) {
+  if (records[i][4] != listId) continue;
+
   var startTime = records[i][1];
   var startTimeObj = {
     hour: startTime.split(":")[0],
@@ -47,10 +60,10 @@ for (var i = 0; i < records.length; i++) {
 
 if (linksToOpen.length == 1) {
   document.location.href = linksToOpen[0];
-} else {
+} else if (linksToOpen.length > 1) {
   for (var i = 0; i < linksToOpen.length; i++) {
     window.open(linksToOpen[i]);
   }
-  
+
   window.close();
 }
