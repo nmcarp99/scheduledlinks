@@ -34,16 +34,25 @@ function loadValues() {
     document.querySelector("#link" + i).value = record[0];
     document.querySelector("#startTime" + i).value = record[1];
     document.querySelector("#endTime" + i).value = record[2];
-    document.querySelector("#order" + i).value = record[3];
   });
 }
 
-function orderChange(e) {
-  records[parseInt(e.split("order")[1])][3] = parseInt(
-    document.querySelector("#" + e).value
-  );
+function orderChange(e, direction) {
+  records[parseInt(e.split("order")[1])][3] = 
+    records[parseInt(e.split("order")[1])][3] + (direction * 1.5);
 
+  // recalculate orders
   records = records.sort((a, b) => a[3] - b[3]);
+  
+  let newIndex = 0;
+  records = records.map(record => {
+    if (record[4] == listId) {
+      record[3] = newIndex;
+      newIndex++;
+    }
+    
+    return record;
+  });
 
   saveRecords(records);
 
@@ -102,7 +111,8 @@ function onLoad() {
     
     output += `<div id="outer">
         <div class="inner">
-          <input class="input" onchange="orderChange(this.id)" id="order${i.toString()}" type="number" />
+          <input class="input" onclick="orderChange(this.id, -1)" id="order${i.toString()}" type="button" value="&#9650;" />
+          <input class="input" onclick="orderChange(this.id, 1)" id="order${i.toString()}" type="button" value="&#9660;" />
         </div>
         <div class="inner">
           <input class="input" onchange="linkChange(this.id)" id="link${i.toString()}" type="text" />
