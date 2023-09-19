@@ -132,7 +132,8 @@ function onLoad() {
 }
 
 function addNew() {
-  records.push(["", "", "", 0, listId]);
+  const lastRecordInList = records.filter(record => record[4] == listId).reverse()[0] || [0,0,0,-1];
+  records.push(["", "", "", lastRecordInList[3] + 1, listId]);
 
   saveRecords(records);
 
@@ -140,7 +141,7 @@ function addNew() {
 }
 
 function deleteAll() {
-  records.forEach((record, i) => records[i][4] = 'fd')
+  records = records.filter(record => record[4] != listId);
 
   saveRecords(records);
 
