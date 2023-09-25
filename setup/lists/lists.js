@@ -13,10 +13,8 @@ function onLoad() {
 
   listsHTML = lists.reduce((prev, cur) => {
     return prev + 
-      `<li><a href="/setup?id=${cur}">${cur}</a></li>`;
-  }, '<ul>');
-  
-  listsHTML += '</ul>';
+      `<a href="/setup?id=${cur}">${cur}</a>`;
+  }, '');
 
   $("#lists").html(listsHTML);
 }
