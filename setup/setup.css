@@ -56,6 +56,23 @@ body {
 ul {
   margin: 10px 50px;
 }
-li {
-  font-size: 25px;
+a {
+  display: block;
+  text-decoration: none;
+  color: black;
+  background: whitesmoke;
+  width: calc(100% - 30px);
+  padding: 15px;
+  border-radius: 10px;
+  margin: 10px 0;
+  font-size: 1.25em;
+  font-family: 'Arial';
+  box-shadow: 5px 5px 10px transparent;
+  transition: all .3s ease;
+}
+a:hover {
+  box-shadow: 5px 5px 10px black;
+}
+a:active {
+  filter: brightness(80%);
 }
