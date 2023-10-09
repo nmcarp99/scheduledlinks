@@ -17,7 +17,7 @@ var listId = params?.id;
 
 function parseUrl(url) {
   return url.replace(/{{.*}}/g, value => {
-    return eval(value.replace(/{|}/g, ''));
+    return eval(value.replace(/(?:^{{)|(?:}}$)/gm, ''));
   })
 }
 
