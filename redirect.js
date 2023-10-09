@@ -15,6 +15,12 @@ var params = location.search
 
 var listId = params?.id;
 
+function parseUrl(url) {
+  return url.replace(/{{.*}}/g, value => {
+    return eval(value.replace(/{|}/g, ''));
+  })
+}
+
 var records = window.localStorage.records
   ? JSON.parse(window.localStorage.records)
   : [];
@@ -54,7 +60,7 @@ for (var i = 0; i < records.length; i++) {
   };
   var currentTimeObj = { hour: dt.getHours(), minute: dt.getMinutes() };
   if (isInTimeLimit(startTimeObj, endTimeObj, currentTimeObj)) {
-    linksToOpen.push(records[i][0]);
+    linksToOpen.push(parseUrl(records[i][0]));
   }
 }
 
