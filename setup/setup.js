@@ -96,7 +96,7 @@ function onLoad() {
     }, {});
 
   if (!params.id)
-    return window.open("/setup?id=" + prompt("New List Id: "), "_self");
+    return window.open("?id=" + prompt("New List Id: "), "_self");
   
   listId = params.id;
 
